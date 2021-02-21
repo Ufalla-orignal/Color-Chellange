@@ -70,8 +70,11 @@ view_y=Window.center_y
 btn_Main=Button(Red, view_x-Button.width/2, view_y-100, Button.width, Button.heigth)
 btn_Main.color= generate_color()
 btn_1=Button(Green, view_x-Button.width/2-Distance_to_Center_x-Button.width+30, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
+btn_1.color= generate_color()
 btn_2=Button(Green, view_x-Button.width/2+10, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
+btn_2.color= generate_color()
 btn_3=Button(Green, view_x+Button.width/2-10+Distance_to_Center_x, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
+btn_3.color= generate_color()
 
 text, textRect = t('Цвэт', Window.center_x, Window.center_y-Button.heigth-10)
 text1, textRect1 = t('1', Window.center_x-Distance_to_Center_x-Button.width+20, Window.center_y+Distance_to_Button+Button.width/2-45)
