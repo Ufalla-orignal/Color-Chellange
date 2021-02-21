@@ -76,7 +76,6 @@ isMouseClick=False
 running=True
 while running:
     screen.fill(White)
-    screen.blit(text, textRect)
     clock.tick(FPS)
     
     list_events=pg.event.get() # Список событий
