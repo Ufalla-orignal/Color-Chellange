@@ -59,7 +59,9 @@ def t (str_t, x, y, Color):
     return text, textRect
 
 text, textRect = t('Цвэт', Window.center_x, Window.center_y-Button.heigth-10, Red)
-text1, textRect1 = t('1', Window.center_x-Distance_to_Center_x-Button.width+15, Window.center_y+Distance_to_Button+Button.width/2-10, Green)
+text1, textRect1 = t('1', Window.center_x-Distance_to_Center_x-Button.width+20, Window.center_y+Distance_to_Button+Button.width/2-45, Green)
+text2, textRect2 = t('2', Window.center_x, Window.center_y+Distance_to_Button+Button.width/2-45, Green)
+text3, textRect3 = t('3', Window.center_x+Distance_to_Center_x+Button.width-20, Window.center_y+Distance_to_Button+Button.width/2-45, Green)
 
 view_x=Window.center_x
 view_y=Window.center_y
@@ -107,6 +109,8 @@ while running:
     btn_3.draw(screen)
     screen.blit(text, textRect)
     screen.blit(text1, textRect1)
+    screen.blit(text2, textRect2)
+    screen.blit(text3, textRect3)
     pg.display.update()
           
 pg.quit()
