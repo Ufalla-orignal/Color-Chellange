@@ -45,6 +45,12 @@ White=(255, 255, 255)
 Green=(0, 255, 0)
 Black=(0, 0, 0)
 
+def generate_color():
+    r=rnd.randint(0, 255)
+    g=rnd.randint(0, 255)
+    b=rnd.randint(0, 255)
+    return (r, g, b)
+
 Distance_to_Center_x=50
 Button.width=130
 Button.heigth=60
@@ -52,24 +58,25 @@ Distance_to_Button=10
 
 font=pg.font.Font('freesansbold.ttf', 20)
 
-def t (str_t, x, y, Color):
-    text=font.render(str_t, True, Black, Color)
+def t (str_t, x, y):
+    text=font.render(str_t, True, Black)
     textRect=text.get_rect()
     textRect.center=(x, y)
     return text, textRect
-
-text, textRect = t('Цвэт', Window.center_x, Window.center_y-Button.heigth-10, Red)
-text1, textRect1 = t('1', Window.center_x-Distance_to_Center_x-Button.width+20, Window.center_y+Distance_to_Button+Button.width/2-45, Green)
-text2, textRect2 = t('2', Window.center_x, Window.center_y+Distance_to_Button+Button.width/2-45, Green)
-text3, textRect3 = t('3', Window.center_x+Distance_to_Center_x+Button.width-20, Window.center_y+Distance_to_Button+Button.width/2-45, Green)
 
 view_x=Window.center_x
 view_y=Window.center_y
 
 btn_Main=Button(Red, view_x-Button.width/2, view_y-100, Button.width, Button.heigth)
+btn_Main.color= generate_color()
 btn_1=Button(Green, view_x-Button.width/2-Distance_to_Center_x-Button.width+30, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
 btn_2=Button(Green, view_x-Button.width/2+10, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
 btn_3=Button(Green, view_x+Button.width/2-10+Distance_to_Center_x, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
+
+text, textRect = t('Цвэт', Window.center_x, Window.center_y-Button.heigth-10)
+text1, textRect1 = t('1', Window.center_x-Distance_to_Center_x-Button.width+20, Window.center_y+Distance_to_Button+Button.width/2-45)
+text2, textRect2 = t('2', Window.center_x, Window.center_y+Distance_to_Button+Button.width/2-45)
+text3, textRect3 = t('3', Window.center_x+Distance_to_Center_x+Button.width-20, Window.center_y+Distance_to_Button+Button.width/2-45)
 
 isMouseDown=False
 isMouseClick=False
