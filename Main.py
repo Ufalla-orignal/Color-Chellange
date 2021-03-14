@@ -1,18 +1,19 @@
 import pygame as pg
 import random as rnd
 
+# Константы
 FPS=30
+RED=(255, 0, 0)
+WHITE=(255, 255, 255)
+GREEN=(0, 255, 0)
+BLACK=(0, 0, 0)
 
+# Классы и функции
 class Window:
     width=640
     heigth=480
     center_x=width/2
     center_y=heigth/2
-
-pg.init()
-screen=pg.display.set_mode((Window.width, Window.heigth))
-Name_screen=pg.display.set_caption('Color Chellange')
-clock=pg.time.Clock()
 
 class Button:
     mouseIsOver=False
@@ -39,53 +40,63 @@ class Button:
         self.x=x
         self.y=y
         
-    
-Red=(255, 0, 0)
-White=(255, 255, 255)
-Green=(0, 255, 0)
-Black=(0, 0, 0)
-
 def generate_color():
     r=rnd.randint(0, 255)
     g=rnd.randint(0, 255)
     b=rnd.randint(0, 255)
     return (r, g, b)
 
+def t (str_t, x, y):
+    text=font.render(str_t, True, BLACK)
+    textRect=text.get_rect()
+    textRect.center=(x, y)
+    return text, textRect
+
+# Не изменяется
+pg.init()
+screen=pg.display.set_mode((Window.width, Window.heigth))
+pg.display.set_caption('Color Chellange')
+font=pg.font.Font('freesansbold.ttf', 20)
+clock=pg.time.Clock()
+
 Distance_to_Center_x=50
 Button.width=130
 Button.heigth=60
 Distance_to_Button=10
 
-font=pg.font.Font('freesansbold.ttf', 20)
-
-def t (str_t, x, y):
-    text=font.render(str_t, True, Black)
-    textRect=text.get_rect()
-    textRect.center=(x, y)
-    return text, textRect
-
 view_x=Window.center_x
 view_y=Window.center_y
 
-btn_Main=Button(Red, view_x-Button.width/2, view_y-100, Button.width, Button.heigth)
-btn_Main.color= generate_color()
-btn_1=Button(Green, view_x-Button.width/2-Distance_to_Center_x-Button.width+30, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
-btn_1.color= generate_color()
-btn_2=Button(Green, view_x-Button.width/2+10, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
-btn_2.color= generate_color()
-btn_3=Button(Green, view_x+Button.width/2-10+Distance_to_Center_x, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
-btn_3.color= generate_color()
+# Создание кнопок
+btn_Main=Button(RED, view_x-Button.width/2, view_y-100, Button.width, Button.heigth)
+btn_1=Button(generate_color(), view_x-Button.width/2-Distance_to_Center_x-Button.width+30, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
+btn_2=Button(generate_color(), view_x-Button.width/2+10, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
+btn_3=Button(generate_color(), view_x+Button.width/2-10+Distance_to_Center_x, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
 
-text, textRect = t('Цвэт', Window.center_x, Window.center_y-Button.heigth-10)
+# И текста
+text, textRect = t('Цифры', Window.center_x, Window.center_y-Button.heigth-10)
 text1, textRect1 = t('1', Window.center_x-Distance_to_Center_x-Button.width+20, Window.center_y+Distance_to_Button+Button.width/2-45)
 text2, textRect2 = t('2', Window.center_x, Window.center_y+Distance_to_Button+Button.width/2-45)
 text3, textRect3 = t('3', Window.center_x+Distance_to_Center_x+Button.width-20, Window.center_y+Distance_to_Button+Button.width/2-45)
+
+n=rnd.randint(1, 3)
+
+def FirstB():
+    btn_2.color=btn_1.color
+
+def SecondB():
+    btn_3.color=btn_2.color
+
+def ThirdB():
+    btn_1.color=btn_3.color
+
+arr=[n-1, FirstB, SecondB, ThirdB]
 
 isMouseDown=False
 isMouseClick=False
 running=True
 while running:
-    screen.fill(White)
+    screen.fill(WHITE)
     clock.tick(FPS)
     
     list_events=pg.event.get() # Список событий
@@ -106,11 +117,11 @@ while running:
     if isMouseClick:
         isMouseDown=isMouseClick=False
         if btn_1.mouseIsOver:
-            print("1")
+            btn_1.color=generate_color()
         if btn_2.mouseIsOver:
-            print("2")
+            btn_2.color=generate_color()
         if btn_3.mouseIsOver:
-            print("3")
+            btn_3.color=generate_color()
             
     btn_Main.draw(screen)
     btn_1.draw(screen)
