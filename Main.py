@@ -68,33 +68,36 @@ view_x=Window.center_x
 view_y=Window.center_y
 
 # Создание кнопок
-btn_Main=Button(RED, view_x-Button.width/2, view_y-100, Button.width, Button.heigth)
+btn_Main=Button(WHITE, view_x-Button.width/2, view_y-100, Button.width, Button.heigth)
 btn_1=Button(generate_color(), view_x-Button.width/2-Distance_to_Center_x-Button.width+30, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
 btn_2=Button(generate_color(), view_x-Button.width/2+10, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
 btn_3=Button(generate_color(), view_x+Button.width/2-10+Distance_to_Center_x, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
 
 # И текста
-text, textRect = t('Цифры', Window.center_x, Window.center_y-Button.heigth-10)
-text1, textRect1 = t('1', Window.center_x-Distance_to_Center_x-Button.width+20, Window.center_y+Distance_to_Button+Button.width/2-45)
-text2, textRect2 = t('2', Window.center_x, Window.center_y+Distance_to_Button+Button.width/2-45)
-text3, textRect3 = t('3', Window.center_x+Distance_to_Center_x+Button.width-20, Window.center_y+Distance_to_Button+Button.width/2-45)
+# text1, textRect1 = t('', Window.center_x-Distance_to_Center_x-Button.width+20, Window.center_y+Distance_to_Button+Button.width/2-45)
+# text2, textRect2 = t('', Window.center_x, Window.center_y+Distance_to_Button+Button.width/2-45)
+# text3, textRect3 = t('', Window.center_x+Distance_to_Center_x+Button.width-20, Window.center_y+Distance_to_Button+Button.width/2-45)
+textWin, textRectWin = t('You Win!', Window.center_x, Window.center_y+120)
+textLose, textRectLose = t('You Lose...', Window.center_x, Window.center_y+120)
 
-n=rnd.randint(1, 3)
-
-def FirstB():
-    btn_2.color=btn_1.color
-
-def SecondB():
-    btn_3.color=btn_2.color
-
-def ThirdB():
-    btn_1.color=btn_3.color
-
-arr=[n-1, FirstB, SecondB, ThirdB]
+# win btn
+def Win_Btn():
+    n = rnd.randint(1,3)
+    win_color = ()
+    if (n==1):
+        win_color = btn_1.color
+    elif (n==2):
+        win_color = btn_2.color
+    elif (n==3):
+        win_color = btn_3.color
+    return win_color, n
+win_color, n = Win_Btn()
+text, textRect = t(str(win_color)[1:-1], Window.center_x, Window.center_y-Button.heigth-10)
 
 isMouseDown=False
 isMouseClick=False
 running=True
+Win_or_Lose = 0
 while running:
     screen.fill(WHITE)
     clock.tick(FPS)
@@ -116,21 +119,33 @@ while running:
                 
     if isMouseClick:
         isMouseDown=isMouseClick=False
-        if btn_1.mouseIsOver:
-            btn_1.color=generate_color()
-        if btn_2.mouseIsOver:
-            btn_2.color=generate_color()
-        if btn_3.mouseIsOver:
-            btn_3.color=generate_color()
-            
+        if btn_1.mouseIsOver and n==1:
+            Win_or_Lose = 1
+        elif btn_2.mouseIsOver and n==2:
+            Win_or_Lose = 1
+        elif btn_3.mouseIsOver and n==3:
+            Win_or_Lose = 1
+        else:
+            Win_or_Lose = 2
+    
+    if Win_or_Lose==1:
+        screen.blit(textWin, textRectWin)
+        pg.delay(3000)
+        Win_or_lose = 0
+        Win_Btn()
+        
+    
+    elif Win_or_Lose==2:
+        screen.blit(textLose, textRectLose)
+    
     btn_Main.draw(screen)
     btn_1.draw(screen)
     btn_2.draw(screen)
     btn_3.draw(screen)
     screen.blit(text, textRect)
-    screen.blit(text1, textRect1)
-    screen.blit(text2, textRect2)
-    screen.blit(text3, textRect3)
+#     screen.blit(text1, textRect1)
+#     screen.blit(text2, textRect2)
+#     screen.blit(text3, textRect3)
     pg.display.update()
           
 pg.quit()
