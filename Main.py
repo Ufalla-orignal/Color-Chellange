@@ -74,9 +74,6 @@ btn_2=Button(generate_color(), view_x-Button.width/2+10, view_y+Distance_to_Butt
 btn_3=Button(generate_color(), view_x+Button.width/2-10+Distance_to_Center_x, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
 
 # И текста
-# text1, textRect1 = t('', Window.center_x-Distance_to_Center_x-Button.width+20, Window.center_y+Distance_to_Button+Button.width/2-45)
-# text2, textRect2 = t('', Window.center_x, Window.center_y+Distance_to_Button+Button.width/2-45)
-# text3, textRect3 = t('', Window.center_x+Distance_to_Center_x+Button.width-20, Window.center_y+Distance_to_Button+Button.width/2-45)
 textWin, textRectWin = t('You Win!', Window.center_x, Window.center_y+120)
 textLose, textRectLose = t('You Lose...', Window.center_x, Window.center_y+120)
 
@@ -128,24 +125,25 @@ while running:
         else:
             Win_or_Lose = 2
     
-    if Win_or_Lose==1:
-        screen.blit(textWin, textRectWin)
-        pg.delay(3000)
+    if (Win_or_Lose!=0):
         Win_or_lose = 0
-        Win_Btn()
+        if Win_or_Lose==1:
+            btn_1.color = generate_color()
+            btn_2.color = generate_color()
+            btn_3.color = generate_color()
+            Win_Btn()
+            win_color, n = Win_Btn()
+            text, textRect = t(str(win_color)[1:-1], Window.center_x, Window.center_y-Button.heigth-10)
+            screen.blit(textWin, textRectWin)
         
-    
-    elif Win_or_Lose==2:
-        screen.blit(textLose, textRectLose)
+        elif Win_or_Lose==2:
+            screen.blit(textLose, textRectLose)
     
     btn_Main.draw(screen)
     btn_1.draw(screen)
     btn_2.draw(screen)
     btn_3.draw(screen)
     screen.blit(text, textRect)
-#     screen.blit(text1, textRect1)
-#     screen.blit(text2, textRect2)
-#     screen.blit(text3, textRect3)
     pg.display.update()
           
 pg.quit()
