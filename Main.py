@@ -22,15 +22,16 @@ class Button:
     
     width=0
     # Конструктор
-    def __init__(self, color, x, y, width, height):
+    def __init__(self, color, x, y, width, height, border):
         self.color=color
         self.x=x
         self.y=y
         self.width=width
         self.height=height
+        self.border=border
         
     def draw(self, screen_):
-        pg.draw.rect(screen_, self.color, (self.x, self.y, self.width, self.height))
+        pg.draw.rect(screen_, self.color, (self.x, self.y, self.width, self.height), self.border, 5)
         
     def is_over(self, mouse_x, mouse_y):
         return self.x<=mouse_x<=self.x+self.width and \
@@ -68,14 +69,28 @@ view_x=Window.center_x
 view_y=Window.center_y
 
 # Создание кнопок
-btn_Main=Button(WHITE, view_x-Button.width/2, view_y-100, Button.width, Button.heigth)
-btn_1=Button(generate_color(), view_x-Button.width/2-Distance_to_Center_x-Button.width+30, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
-btn_2=Button(generate_color(), view_x-Button.width/2+10, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
-btn_3=Button(generate_color(), view_x+Button.width/2-10+Distance_to_Center_x, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
+btn_Main=Button(BLACK, view_x-Button.width/2, view_y-100, Button.width, Button.heigth, 3)
+btn_1=Button(generate_color(), view_x-Button.width/2-Distance_to_Center_x-Button.width+30, view_y+Distance_to_Button, Button.width-20, Button.heigth-20, 0)
+btn_2=Button(generate_color(), view_x-Button.width/2+10, view_y+Distance_to_Button, Button.width-20, Button.heigth-20, 0)
+btn_3=Button(generate_color(), view_x+Button.width/2-10+Distance_to_Center_x, view_y+Distance_to_Button, Button.width-20, Button.heigth-20, 0)
+
+Number_of_Circle = 3
+def Circle_1():
+    pg.draw.circle(screen, RED, (Window.center_x+230, Window.center_y-150), 8)
+def Circle_2():
+    pg.draw.circle(screen, RED, (Window.center_x+250, Window.center_y-150), 8)
+def Circle_3():
+    pg.draw.circle(screen, RED, (Window.center_x+270, Window.center_y-150), 8)
+
+Score = 0
 
 # И текста
 textWin, textRectWin = t('You Win! Next!', Window.center_x, Window.center_y+120)
 textLose, textRectLose = t('You Lose...', Window.center_x, Window.center_y+120)
+textScoreText, textRectScoreText = t('Score: ', Window.center_x-210, Window.center_y-150)
+textScore, textRectScore = t(str(Score), Window.center_x-170, Window.center_y-150)
+textLife, textRectLife = t('Life: ', Window.center_x+198, Window.center_y-150)
+
 
 # win btn
 def Win_Btn():
@@ -94,6 +109,8 @@ text, textRect = t(str(win_color)[1:-1], Window.center_x, Window.center_y-Button
 isMouseDown=False
 isMouseClick=False
 running=True
+Win = 1
+Lose = 2
 Win_or_Lose = 0 # Победа или нет
 Win_number = 0 # Определяет что писать
 while running:
@@ -118,38 +135,48 @@ while running:
     if isMouseClick:
         isMouseDown=isMouseClick=False
         if btn_1.mouseIsOver and n==1:
-            Win_or_Lose = 1
+            Win_or_Lose = Win
         elif btn_2.mouseIsOver and n==2:
-            Win_or_Lose = 1
+            Win_or_Lose = Win
         elif btn_3.mouseIsOver and n==3:
-            Win_or_Lose = 1
+            Win_or_Lose = Win
         else:
-            Win_or_Lose = 2
+            Win_or_Lose = Lose
 
-    if Win_or_Lose==1:
+    if Win_or_Lose == Win:
         Win_Btn()
         win_color, n = Win_Btn()
         btn_1.color = generate_color()
         btn_2.color = generate_color()
         btn_3.color = generate_color()
         text, textRect = t(str(win_color)[1:-1], Window.center_x, Window.center_y-Button.heigth-10)
-        Win_number = 1
+        Win_number = Win
+        Score += 1
+        textScore, textRectScore = t(str(Score), Window.center_x-170, Window.center_y-150)
     
-    elif Win_or_Lose==2:
-        Win_number = 2
+    elif Win_or_Lose == Lose:
+        Win_number = Lose
+        Score = 0
+        textScore, textRectScore = t(str(Score), Window.center_x-170, Window.center_y-150)
     
     Win_or_Lose = 0
     
-    if Win_number == 1:
+    if Win_number == Win:
         screen.blit(textWin, textRectWin)
-    elif Win_number == 2:
+    elif Win_number == Lose:
         screen.blit(textLose, textRectLose)
     
     btn_Main.draw(screen)
     btn_1.draw(screen)
     btn_2.draw(screen)
     btn_3.draw(screen)
+    Circle_1()
+    Circle_2()
+    Circle_3()
+    screen.blit(textScoreText, textRectScoreText)
     screen.blit(text, textRect)
+    screen.blit(textScore, textRectScore)
+    screen.blit(textLife, textRectLife)
     pg.display.update()
           
 pg.quit()
