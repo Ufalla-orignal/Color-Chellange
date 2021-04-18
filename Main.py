@@ -74,7 +74,7 @@ btn_2=Button(generate_color(), view_x-Button.width/2+10, view_y+Distance_to_Butt
 btn_3=Button(generate_color(), view_x+Button.width/2-10+Distance_to_Center_x, view_y+Distance_to_Button, Button.width-20, Button.heigth-20)
 
 # И текста
-textWin, textRectWin = t('You Win!', Window.center_x, Window.center_y+120)
+textWin, textRectWin = t('You Win! Next!', Window.center_x, Window.center_y+120)
 textLose, textRectLose = t('You Lose...', Window.center_x, Window.center_y+120)
 
 # win btn
@@ -95,6 +95,7 @@ isMouseDown=False
 isMouseClick=False
 running=True
 Win_or_Lose = 0
+Win_number = 0
 while running:
     screen.fill(WHITE)
     clock.tick(FPS)
@@ -124,20 +125,25 @@ while running:
             Win_or_Lose = 1
         else:
             Win_or_Lose = 2
+
+    if Win_or_Lose==1:
+        Win_Btn()
+        win_color, n = Win_Btn()
+        btn_1.color = generate_color()
+        btn_2.color = generate_color()
+        btn_3.color = generate_color()
+        text, textRect = t(str(win_color)[1:-1], Window.center_x, Window.center_y-Button.heigth-10)
+        Win_number = 1
     
-    if (Win_or_Lose!=0):
-        Win_or_lose = 0
-        if Win_or_Lose==1:
-            btn_1.color = generate_color()
-            btn_2.color = generate_color()
-            btn_3.color = generate_color()
-            Win_Btn()
-            win_color, n = Win_Btn()
-            text, textRect = t(str(win_color)[1:-1], Window.center_x, Window.center_y-Button.heigth-10)
-            screen.blit(textWin, textRectWin)
-        
-        elif Win_or_Lose==2:
-            screen.blit(textLose, textRectLose)
+    elif Win_or_Lose==2:
+        Win_number = 2
+    
+    Win_or_Lose = 0
+    
+    if Win_number == 1:
+        screen.blit(textWin, textRectWin)
+    elif Win_number == 2:
+        screen.blit(textLose, textRectLose)
     
     btn_Main.draw(screen)
     btn_1.draw(screen)
