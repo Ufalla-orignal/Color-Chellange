@@ -89,13 +89,13 @@ def Win_Btn():
         win_color = btn_3.color
     return win_color, n
 win_color, n = Win_Btn()
-text, textRect = t(str(win_color)[1:-1], Window.center_x, Window.center_y-Button.heigth-10)
+text, textRect = t(str(win_color)[1:-1], Window.center_x, Window.center_y-Button.heigth-10) 
 
 isMouseDown=False
 isMouseClick=False
 running=True
-Win_or_Lose = 0
-Win_number = 0
+Win_or_Lose = 0 # Победа или нет
+Win_number = 0 # Определяет что писать
 while running:
     screen.fill(WHITE)
     clock.tick(FPS)
