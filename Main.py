@@ -156,6 +156,7 @@ while running:
             btn_3.color = generate_color()
             text, textRect = t(str(win_color)[1:-1], Window.center_x, Window.center_y-Button.heigth-10)
             Score = 0
+            textScore, textRectScore = t(str(Score), Window.center_x-170, Window.center_y-150)
             Life = 3
             Win_or_Lose = 0
             Win_number = 0
@@ -176,7 +177,6 @@ while running:
     elif Win_or_Lose == Lose:
         Win_number = Lose
         Life -= 1
-        Score = 0
         textScore, textRectScore = t(str(Score), Window.center_x-170, Window.center_y-150)
     
     Win_or_Lose = 0
